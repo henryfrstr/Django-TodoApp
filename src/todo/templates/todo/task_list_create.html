@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-dark"">Save</button>
+</form>
+<div class=" todo-list">
+        {% for obj in queryset %}
+        <div class="item-row">
+            {% if obj.completed %}
+            <strike>{{ obj }}, {{ obj.due }}</strike>
+            {% else %}
+            <span>{{ obj }}</span>
+            <span style="float: right" class="timer"><b>Due: </b>{{ obj.due|timeuntil }}</span>
+            {% endif %}
+            <a class="btn btn-sm btn-light mybox" href="{{ obj.get_absolute_url }}">Update</a>
+            <a class="btn btn-sm btn-danger mybox" href="{% url 'delete_task' obj.id %}">Delete</a>
+        </div>
+        {% endfor %}
+        </div>
+        {% endblock %}
